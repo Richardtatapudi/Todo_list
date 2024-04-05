@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToDo List</title>
+<style>
+  body {
+    background-image: url('https://t4.ftcdn.net/jpg/05/49/86/39/360_F_549863991_6yPKI08MG7JiZX83tMHlhDtd6XLFAMce.jpg');
+    background-size: cover;
+    height: 100px;
+    margin-top: 30px;
+    margin-left: 480px;
+  }
+  
+  #container {
+    display: grid;
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+    background-color: rgb(192, 188, 173);
+    border-radius: 10px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  input[type="text"] {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    width: 90px;
+    padding:10px;
+    background-color: #4CAF50;
+    color: white;
+    border-width: 0px;
+    border-radius: 15px;
+    margin-left: 250px;
+    
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 10px;
+  }
+  
+  li {
+    margin-bottom: 15px;
+  }
+  
+  li button {
+    margin-left: 10px;
+    background-color: #f44336;
+  }
+  
+  input{
+    height: 50px;
+  }
+  
+  .edit-btn {
+    background-color: #ff9800;
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+  <h1>To-Do List</h1>
+  <input type="text" id="taskInput" placeholder="Enter task">
+  <button onclick="addTask()">Add Task</button>
+  <ul id="taskList"></ul>
+  <p id="taskCount">Total Tasks: 0</p>
+</div>
+
+<script>
+var totalTasks = 0;
+
+function addTask() {
+  var taskInput = document.getElementById("taskInput");
+  var taskList = document.getElementById("taskList");
+  var taskCount = document.getElementById("taskCount");
+  var task = taskInput.value;
+  
+  if (task !== "") {
+    var li = document.createElement("li");
+    
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "task-checkbox";
+    
+    li.appendChild(checkbox);
+    
+    var span = document.createElement("span");
+    span.textContent = task;
+    li.appendChild(span);
+    
+    var deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.onclick = function() {
+      taskList.removeChild(li);
+      updateTaskCount(-1);
+    };
+    li.appendChild(deleteButton);
+
+    var editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.className = "edit-btn";
+    editButton.onclick = function() {
+      var newText = prompt("Enter new task", span.textContent);
+      if (newText !== null && newText !== "") {
+        span.textContent = newText;
+      }
+    };
+    li.appendChild(editButton);
+    
+    taskList.appendChild(li);
+    taskInput.value = "";
+    updateTaskCount(1);
+  }
+}
+
+function updateTaskCount(change) {
+  totalTasks += change;
+  var taskCount = document.getElementById("taskCount");
+  taskCount.textContent = "Total Tasks: " + totalTasks;
+}
+</script>
+</body>
+</html>
